@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { addTaskAction } from "./actions";
+import List from "./List";
+
+import "./index.css";
+
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      task: "",
+    };
+    this.controlChange = this.controlChange.bind(this);
+    this.addTask = this.addTask.bind(this);
+  }
+
+  controlChange(e) {
+    this.setState({
+      task: e.target.value,
+    });
+  }
+  addTask() {
+    if (this.state.task !== "") {
+      this.props.dispatch(addTaskAction(this.state.task));
+      console.log(this.props.dispatch);
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <header>To-Do List</header>
+        <div className="input">
+          <input onChange={this.controlChange} placeholder="Enter Task" />
+          <button onClick={this.addTask}>Add Task</button>
+        </div>
+        <List />
+      </div>
+    );
+  }
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    state,
+  };
+}
+export default connect(mapStateToProps)(App);
