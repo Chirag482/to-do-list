@@ -4,3 +4,9 @@ export function addTaskAction(task) {
     task,
   };
 }
+export function deleteTaskAction(task) {
+  return {
+    type: "DELETE_TASK",
+    task,
+  };
+}
